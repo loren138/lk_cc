@@ -3,7 +3,6 @@ lk_cc
 
 Constant Contact Plugin for ExpressionEngine
 
-=====================================================
 Extension Settings
 =====================================================
 * Constant Contact Username: Your username
@@ -20,10 +19,8 @@ Extension Settings
 * Click settings again.  If everything is working, your lists should now be listed in the List IDs multiselect.
 * The number before the list name is the ID which will be used in the tags.
 
-=====================================================
 Plugin Basic Usage
 =====================================================
-----------------------
 Tag Usage
 ----------------------
 * Default_list is the lists that should be checked by default, if omitted no lists will be checked by default
@@ -58,8 +55,7 @@ Tag Usage
 				<p>Thanks for subscribing!  Please check your email to confirm your subscription.</p>
 			{/if}
 		{/exp:lk_cc:subscribe}
-
---------------------------------------------		
+		
 Small form with just email:
 --------------------------------------------
 This form should submit to the page with the plugin tag code and can be used to embed an email subscribe form into all your website pages without calling the plugin until it is needed.
