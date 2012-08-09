@@ -352,7 +352,6 @@ class Lk_cc {
 	public static function usage()
 	{
 		return <<<EOT
-		
 lk_cc
 =====
 
@@ -418,13 +417,14 @@ This form should submit to the page with the plugin tag code and can be used to 
 * If you set default lists, when the user clicks submit they will be added to your default email lists so even if they don't submit the confirmation form, they have still be subscribed.
 * Submitting the confirmation will allow them edit their information.
 
-<form action="/asia/site/subscribe" target="_blank" method="post">
-	<fieldset>
-		<input type="hidden" name="confirm" value="confirm" />
-		<label for="subscribe_email" class="screen-reader-text">Email Address</label> 
-		<input type="text" value="" id="subscribe_email" name="email" /><input type="image" alt="Subscribe" src="/design/submit-button.png" value="Go" name="go" id="subscribe_image" />
-	</fieldset>
-</form>
+	<form action="/asia/site/subscribe" target="_blank" method="post">
+		<fieldset>
+			<input type="hidden" name="confirm" value="confirm" />
+			<label for="subscribe_email" class="screen-reader-text">Email Address</label> 
+			<input type="text" value="" id="subscribe_email" name="email" />
+			<input type="image" alt="Subscribe" src="/design/submit-button.png" value="Go" name="go" id="subscribe_image" />
+		</fieldset>
+	</form>
 	
 EOT;
 
