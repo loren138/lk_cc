@@ -30,6 +30,7 @@ Tag Usage
 * Email and at least one list selection will be required, the name fields are optional.  Error message strings are defined in the language file.
 * First and last name fields can be omitted if desired.  This script does not currently support any other Constant Contact fields.
 
+```html
 		{exp:lk_cc:subscribe default_list="3" show_list="2|5|6|3|4"}
 			{if !success}
 				<form action="{path="site/subscribe"}" method="post">
@@ -55,6 +56,7 @@ Tag Usage
 				<p>Thanks for subscribing!  Please check your email to confirm your subscription.</p>
 			{/if}
 		{/exp:lk_cc:subscribe}
+```
 		
 Small form with just email:
 --------------------------------------------
@@ -62,7 +64,7 @@ This form should submit to the page with the plugin tag code and can be used to 
 * Set the "confirm" hidden field so that "success" will not be set allowing the user to confirm, subscribe to additional lists etc.
 * If you set default lists, when the user clicks submit they will be added to your default email lists so even if they don't submit the confirmation form, they have still be subscribed.
 * Submitting the confirmation will allow them edit their information.
-
+```html
 	<form action="/asia/site/subscribe" target="_blank" method="post">
 		<fieldset>
 			<input type="hidden" name="confirm" value="confirm" />
@@ -71,3 +73,4 @@ This form should submit to the page with the plugin tag code and can be used to 
 			<input type="image" alt="Subscribe" src="/design/submit-button.png" value="Go" name="go" id="subscribe_image" />
 		</fieldset>
 	</form>
+```
