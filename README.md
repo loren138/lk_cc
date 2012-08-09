@@ -9,13 +9,13 @@ Extension Settings
 * Constant Contact Username: Your username
 * Constant Contact Password: Your password
 * Constant Contact API Key:
-** Get your API Key Here: http://community.constantcontact.com/t5/Documentation/API-Keys/ba-p/25015
-** Login, Click Request a New API Key
-** Fill in the form:
-*** Multiple Accounts?  Select Yes if you will use this key on multiple websites otherwise select no.
-*** Application Description - Website email signup form
-*** You may leave the rest of the form blank.
-** Once you recieve a key, copy the key into the API Key setting.
+	* Get your API Key Here: http://community.constantcontact.com/t5/Documentation/API-Keys/ba-p/25015
+	* Login, Click Request a New API Key
+	* Fill in the form:
+		* Multiple Accounts?  Select Yes if you will use this key on multiple websites otherwise select no.
+		* Application Description - Website email signup form
+		* You may leave the rest of the form blank.
+	* Once you recieve a key, copy the key into the API Key setting.
 * Save your settings.
 * Click settings again.  If everything is working, your lists should now be listed in the List IDs multiselect.
 * The number before the list name is the ID which will be used in the tags.
