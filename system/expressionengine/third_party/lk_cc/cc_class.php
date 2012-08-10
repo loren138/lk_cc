@@ -27,7 +27,7 @@
         // ACTION_BY_CONTACT - Action by Site visitor. Used in web site sign-up forms.
         
         // DEBUGGING
-        var $curl_debug = false; // Set this to true to see the response code returned by cURL
+        var $curl_debug = true; // Set this to true to see the response code returned by cURL
         
         // YOUR BASIC CHANGES SHOULD END HERE
         var $requestLogin; //this contains full authentication string.
@@ -399,6 +399,7 @@
 			$email_node = $contact_node->addChild("EmailAddress", htmlspecialchars(($params['email_address']), ENT_QUOTES, 'UTF-8'));
 			$fname_node = $contact_node->addChild("FirstName", urldecode(htmlspecialchars(($params['first_name']), ENT_QUOTES, 'UTF-8')));
 			$lname_node = $contact_node->addChild("LastName", urldecode(htmlspecialchars(($params['last_name']), ENT_QUOTES, 'UTF-8')));
+			$optin_node = $contact_node->addChild("OptInSource", htmlspecialchars($this->actionBy));
 			/*$lname_node = $contact_node->addChild("MiddleName", urldecode(htmlspecialchars(($params['middle_name']), ENT_QUOTES, 'UTF-8')));
 			if(isset($params['company_name']))
 			{
@@ -414,8 +415,6 @@
 					$this->actionBy = 'ACTION_BY_CONTACT';
 				}
 			}
-
-			$optin_node = $contact_node->addChild("OptInSource", htmlspecialchars($this->actionBy));
 			$hn_node = $contact_node->addChild("HomePhone", htmlspecialchars($params['home_number'], ENT_QUOTES, 'UTF-8'));
 	 		if(isset($params['work_number']))
 			{

@@ -3,6 +3,12 @@ lk_cc
 
 Constant Contact Plugin for ExpressionEngine
 
+This addon interfaces with the constant contact API to allow website visitors to sign up for your newsletters by entering their email address and selecting the lists that they wish to sign up for.  It does not interface with current users in your EE memberbase.
+
+If your multiple sites all use the same Constant Contact account this will work with multi-site manager.
+
+If you would like to add features to this addon, feel free to fork the git-repository and/or work with me on it.  I unfortunately have a full time job and won't be able to add features unless they are required for one of my projects, but I will do my best to provide support to those using the addon and help anyone who wants to add more features to it.
+
 Extension Settings
 =====================================================
 * Constant Contact Username: Your username
