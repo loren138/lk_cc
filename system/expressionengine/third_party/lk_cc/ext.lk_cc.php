@@ -37,12 +37,12 @@ class Lk_cc_ext {
 		 * This check is only reliable on the front end.
 		 * ================================================ */
 		// first check config
-		if ($this->EE->config->item('lk_cc_cc_username') && $this->EE->config->item('lk_cc_cc_username'))
+		if ($this->EE->config->item('lk_cc_cc_username') && $this->EE->config->item('lk_cc_cc_password') && $this->EE->config->item('lk_cc_cc_api_key'))
 		{
 			$this->config_loc = 'config';
 		}
 		// check in global varas
-		elseif (array_key_exists('lk_cc_cc_username', $this->EE->config->_global_vars) && array_key_exists('lk_cc_cc_username', $this->EE->config->_global_vars))
+		elseif (array_key_exists('lk_cc_cc_username', $this->EE->config->_global_vars) && array_key_exists('lk_cc_cc_password', $this->EE->config->_global_vars) && array_key_exists('lk_cc_cc_api_key', $this->EE->config->_global_vars))
 		{
 			$this->config_loc = 'global';
 		}
