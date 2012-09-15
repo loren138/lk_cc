@@ -268,7 +268,7 @@ class Lk_cc_ext {
 		$settings['cc_username'] = trim($settings['cc_username']);
 		$settings['cc_password'] = trim($settings['cc_password']);
 		$settings['cc_api_key'] = trim($settings['cc_api_key']);
-		
+
 		return $settings;
 	}
 	// END

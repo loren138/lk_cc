@@ -128,7 +128,7 @@
             
             foreach ($parsedReturn->link as $item) {
                 $tmp = $item->Attributes();
-                $nextUrl = '';      
+                $nextUrl = '';
                 if ((string) $tmp->rel == 'next') {
                     $nextUrl = (string) $tmp->href;
                     $arrTmp = explode($this->login, $nextUrl);

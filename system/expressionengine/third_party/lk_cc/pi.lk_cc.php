@@ -11,13 +11,9 @@ require_once PATH_THIRD . 'lk_cc/config.php';
 class Lk_cc {
 
 	/* config - required */
-	public $cc_api_key;
-	public $cc_username;
-	public $cc_password;
-
-	/* config - optional */
-	public $base_path;
-	public $base_url;
+	private $cc_api_key;
+	private $cc_username;
+	private $cc_password;
 
 	public $template;
 	public $type;
@@ -344,6 +340,275 @@ class Lk_cc {
 	}
 	// END
 
+    /**
+     * campaign
+     *
+     * Creates a new ConstantContact Campaign
+     *
+     * @return string
+     */
+    public function campaign() {
+    	// We need to parse at the end so we add a shutdown function to php
+    	if ( empty( $this->EE->session->cache[ 'Lk_cc' ][ 'shutdown_is_registered' ] ) )
+		{
+			$this->EE->session->cache[ 'Lk_cc' ][ 'shutdown_is_registered' ] = TRUE;
+
+			//register the shutdown function
+			register_shutdown_function( array( $this, 'shut_it_down' ) );
+		}
+		return $this->EE->TMPL->tagdata;
+	}
+	
+	/**
+	 * shut_it_down
+	 *
+	 * Actually creates the new CC Campaign
+	 *
+	 * @return void
+	 */
+	public function shut_it_down() {
+		$tagdata = $this->EE->TMPL->final_template;
+		$apiKey = $this->cc_api_key;
+		$username = $this->cc_username;
+		if ( ! class_exists('ConstantContact',false))
+		{
+			require_once(PATH_THIRD . 'lk_cc/wrapper/ConstantContact.php');
+		}
+		$ConstantContact = new ConstantContact('basic',$this->cc_api_key,$this->cc_username,$this->cc_password);
+	
+		// Get all verified email addresses
+		$VerifiedEmailAddresses = $ConstantContact->getVerifiedAddresses ();
+		
+		try {
+			// Build Campaign Object
+			$myCampaign = new Campaign ();
+			$match = array();
+			preg_match("'\[name\](.*?)\[/name\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: Name is missing";
+			}
+			$myCampaign->name = $match[1];
+			preg_match("'\[subject\](.*?)\[/subject\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: Subject is missing";
+			}
+			$myCampaign->subject = $match[1];
+			preg_match("'\[fromname\](.*?)\[/fromname\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: FromName is missing";
+			}
+			$myCampaign->fromName = $match[1];
+		
+			preg_match("'\[fromemail\](.*?)\[emailaddress\](.*?)\[/emailaddress\](.*?)\[/fromemail\]'si", $tagdata, $match);
+			if (!isset($match[2]) || $match[2] == "") {
+				echo "Error: FromEmail is missing";
+			}
+			$email = trim($match[2]);
+			$allemails = $VerifiedEmailAddresses;
+			do {
+				// Gets the next link if there are more than 50 results to
+				// be returned
+				$moreVerifiedEmailAddresses = $ConstantContact->getVerifiedAddresses($VerifiedEmailAddresses['nextLink']);
+				
+				foreach ( $VerifiedEmailAddresses['addresses'] as $VerifiedEmailAddress ) {
+					if ($VerifiedEmailAddress->email == $email) {
+						$myCampaign->fromAddress = $VerifiedEmailAddress;
+						$fromAddress = $VerifiedEmailAddress;
+						break 2; // We found our email address so we can exit our
+						       // foreach and while
+					}
+				}
+				// Sets original Verified emaillAddresses to the next 50 so
+				// it will replace its values
+				$VerifiedEmailAddresses = $moreVerifiedEmailAddresses;
+			} while ( $VerifiedEmailAddresses ['nextLink'] != false );
+			if (!isset($fromAddress)) { echo "Error: FromEmail is invalid"; }
+			preg_match("'\[replytoemail\](.*?)\[emailaddress\](.*?)\[/emailaddress\](.*?)\[/replytoemail\]'si", $tagdata, $match);
+			if (!isset($match[2]) || $match[2] == "") {
+				echo "Error: ReplyToEmail is missing";
+			}
+			$email = trim($match[2]);
+			$VerifiedEmailAddresses = $allemails;
+			do {
+				// Gets the next link if there are more than 50 results to
+				// be returned
+				$moreVerifiedEmailAddresses = $ConstantContact->getVerifiedAddresses ( $VerifiedEmailAddresses ['nextLink'] );
+				foreach ( $VerifiedEmailAddresses ['addresses'] as $VerifiedEmailAddress ) {
+					if ($VerifiedEmailAddress->email == $email) {
+						$myCampaign->replyAddress = $VerifiedEmailAddress;
+						$replyAddress = $VerifiedEmailAddress;
+						break 2; // We found our email address so we can exit our
+						       // foreach and while
+					}
+				}
+				// Sets original Verified emaillAddresses to the next 50 so
+				// it will replace its values
+				$VerifiedEmailAddresses = $moreVerifiedEmailAddresses;
+			} while ( $VerifiedEmailAddresses ['nextLink'] != false );
+			if (!isset($replyAddress)) { echo "Error: ReplyToEmail is invalid"; }
+			preg_match("'\[permissionreminder\](.*?)\[/permissionreminder\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: PermissionReminder is missing";
+			}
+			$myCampaign->permissionReminder = $match[1];
+			preg_match("'\[permissionremindertext\](.*?)\[/permissionremindertext\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: PermissionReminderText is missing";
+			}
+			$myCampaign->permissionReminderText = $match[1];
+			preg_match("'\[greetingname\](.*?)\[/greetingname\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: GreetingName is missing";
+			}
+			$myCampaign->greetingName = $match[1];
+			preg_match("'\[greetingsalutation\](.*?)\[/greetingsalutation\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: GreetingSalutation is missing";
+			}
+			$myCampaign->greetingSalutation = $match[1];
+			preg_match("'\[greetingstring\](.*?)\[/greetingstring\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: GreetingString is missing";
+			}
+			$myCampaign->greetingString = $match[1];
+			preg_match("'\[organizationname\](.*?)\[/organizationname\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: OrganizationName is missing";
+			}
+			$myCampaign->orgName = $match[1];
+			preg_match("'\[organizationaddress1\](.*?)\[/organizationaddress1\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: OrganizationAddress1 is missing";
+			}
+			$myCampaign->orgAddr1 = $match[1];
+			preg_match("'\[organizationaddress2\](.*?)\[/organizationaddress2\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: OrganizationAddress2 is missing";
+			}
+			$myCampaign->orgAddr2 = $match[1];
+			preg_match("'\[organizationaddress3\](.*?)\[/organizationaddress3\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: OrganizationAddress3 is missing";
+			}
+			$myCampaign->orgAddr3 = $match[1];
+			preg_match("'\[organizationcity\](.*?)\[/organizationcity\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: OrganizationCity is missing";
+			}
+			$myCampaign->orgCity = $match[1];
+			preg_match("'\[organizationstate\](.*?)\[/organizationstate\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: OrganizationState is missing";
+			}
+			$myCampaign->orgState = $match[1];
+
+			preg_match("'\[organizationpostalcode\](.*?)\[/organizationpostalcode\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: OrganizationPostalCode is missing";
+			}
+			$myCampaign->orgPostalCode = $match[1];
+			preg_match("'\[organizationcountry\](.*?)\[/organizationcountry\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: OrganizationCountry is missing";
+			}
+			$myCampaign->orgCountry = $match[1];
+			// Validates that if the user selects United states, the stateOther
+			// is empty
+			if ($match[1] == "United States" || $match[1] == "US") {
+				$myCampaign->orgInternationalState == NULL;
+			} else {
+				preg_match("'\[organizationinternationalstate\](.*?)\[/organizationinternationalstate\]'si", $tagdata, $match);
+				if (!isset($match[1]) || $match[1] == "") {
+					echo "Error: OrganizationInternationalState is missing";
+				}
+				$myCampaign->orgInternationalState = $match[1];
+			}
+			preg_match("'\[includeforwardemail\](.*?)\[/IncludeForwardEmail\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: IncludeForwardEmail is missing";
+			}
+			$myCampaign->incForwardEmail = $match[1];
+			preg_match("'\[IncludeSubscribeLink\](.*?)\[/IncludeSubscribeLink\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: IncludeSubscribeLink is missing";
+			}
+			$myCampaign->incSubscribeLink = $match[1];
+			preg_match("'\[ForwardEmailLinkText\](.*?)\[/ForwardEmailLinkText\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: ForwardEmailLinkText is missing";
+			}
+			$myCampaign->forwardEmailLinkText = $match[1];
+			preg_match("'\[SubscribeLinkText\](.*?)\[/SubscribeLinkText\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: SubscribeLinkText is missing";
+			}
+			$myCampaign->subscribeLinkText = $match[1];
+			preg_match("'\[ViewAsWebpage\](.*?)\[/ViewAsWebpage\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: ViewAsWebpage is missing";
+			}
+			$myCampaign->vawp = $match[1];
+			preg_match("'\[ViewAsWebpageText\](.*?)\[/ViewAsWebpageText\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: ViewAsWebpageText is missing";
+			}
+			$myCampaign->vawpText = $match[1];
+			preg_match("'\[ViewAsWebpageLinkText\](.*?)\[/ViewAsWebpageLinkText\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: ViewAsWebpageLinkText is missing";
+			}
+			$myCampaign->vawpLinkText = $match[1];
+			preg_match("'\[EmailContentFormat\](.*?)\[/EmailContentFormat\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: EmailContentFormat is missing";
+			}
+			$myCampaign->emailContentFormat = $match[1];
+			preg_match("'\[StyleSheet\](.*?)\[/StyleSheet\]'si", $tagdata, $match);
+			if (!isset($match[1])) {
+				echo "Error: StyleSheet is missing";
+			}
+			$myCampaign->styleSheet = $match[1];
+			preg_match("'\[emailcontent\](.*?)\[/emailcontent\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: EmailContent is missing";
+			}
+			$myCampaign->emailContent = htmlspecialchars($match[1]);
+			preg_match("'\[emailtextcontent\](.*?)\[/emailtextcontent\]'si", $tagdata, $match);
+			if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: EmailTextContent is missing";
+			}
+			$myCampaign->textVersionContent = htmlspecialchars($match[1]);
+		    preg_match("'\[lists\](.*?)\[/lists\]'si", $tagdata, $match);
+		    if (!isset($match[1]) || $match[1] == "") {
+				echo "Error: Lists is missing";
+			}
+			$lists = explode("|",$match[1]);
+			$ccListOBJ = new CC_List($this->cc_username,$this->cc_password, $this->cc_api_key); 
+			$allLists = $ccListOBJ->getLists();
+			$lists2 = array();
+			foreach ($allLists as $list) {
+				$key = explode('/',$list['id']);
+				$key = array_pop($key); // Get the id off the end of the string
+				if (in_array($key, $lists)) { // Is it in the list to be checked by default?
+					$lists2[] = $list['id'];
+				}
+			}
+			if (count($lists2) == 0) {
+				echo "ERROR: No valid lists selected.";
+			}
+			$myCampaign->lists = $lists2;
+			
+			// Adds your new campaign to your Constant Contact Account
+			echo "\n\n".$myCampaign->createXml()."\n\n";
+			$CampaignResult = $ConstantContact->addCampaign ( $myCampaign, $fromAddress );
+			// $CampaignResult will now hold the referenced campaign object
+		// Catch all errors
+		} catch ( Exception $e ) {
+			echo $e .' '.$e->getMessage()." needs to be corrected before submission";
+		}
+		echo "If no error message above, your campaign has been created.  Go to Constant Contact to Schedule and Send.";
+	}
+		
 	/**
 	 * Display usage notes in EE control panel
 	 *
@@ -437,7 +702,11 @@ This form should submit to the page with the plugin tag code and can be used to 
 		</fieldset>
 	</form>
 ```
-	
+
+Creating a Campaign:
+--------------------------------------------
+See the readme file.
+
 EOT;
 
 	}
