@@ -101,7 +101,8 @@ IMPORTANT: Just to say it one more time, the pages that this is on are intended 
 
 
 Example Code:
-```{exp:lk_cc:campaign}
+```
+{exp:lk_cc:campaign}
 [campaign]
 {exp:channel:entries channel="features" limit="1" disable="categories|member_data|pagination|category_fields"}{if no_results}404 Error{/if}
 <?php
@@ -302,4 +303,5 @@ echo str_replace(array("<br>","<br/>","<br />"),"",$rss);
 }
 [/StyleSheet]
 [/campaign]
-{/exp:lk_cc:campaign}```
+{/exp:lk_cc:campaign}
+```
