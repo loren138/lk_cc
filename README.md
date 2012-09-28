@@ -1,4 +1,4 @@
-lk_cc
+LK Constant Contact
 =====
 
 Constant Contact Plugin for ExpressionEngine
