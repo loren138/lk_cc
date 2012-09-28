@@ -96,6 +96,7 @@ This will create a new campaign in constant contact.
 * Your email XML must be perfect or CC will reject it.  I recommend building the XML without using the exp:lk_cc:campaign tags and just copy pasting into the CC Custom Campaign builder until your code works and the preview looks right.  Then, put the exp:lk_cc:campaign tags around it which will create the campaign.  This will prevent you from getting a bunch of test campaigns created.  See the advanced users guide for more details: http://www.constantcontact.com/aka/docs/pdf/CC_Advanced_Editor_User_Guide.pdf
 * This does not schedule the campaign to be sent.  You must log into constant contact and do that yourself.  (You should also preview the campaign before you schedule it just to be sure everything looks right.)
 * In order for this tag to work properly and fetch after all other processing has happened, this tag schedules a late fetch of the data which means you should have nothing in this template except the exp:lk_cc:campaign information.  The plugin will output the full XML that it sends to Constant Contact and the result of scheduling the campaign at the bottom of the page for use in debugging.
+* Using a CSS template type will make the output more readable for debugging, but switching to html and putting <!-- --> around the [campaign] [/campaign] will hide the information for users
 
 IMPORTANT: Just to say it one more time, the pages that this is on are intended for use only by the admin.  Everytime this page is hit, the plugin will attempt to create a new constant contact campaign.  This plugin has no ability to detect new posts and only create a campaign for each new post.  Finally, the constant contact API is very picky about the XML it receives, and the plugin does very little to verify your XML so be sure you get it right using my example code below should help with that.
 
@@ -118,10 +119,11 @@ EOT;
 $title = str_replace(array('&#8220;','&#8221;'),'"',$title);
 $title = trim(iconv("UTF-8", 'ASCII//TRANSLIT', $title));
 ?>
+      [debug]off[/debug] {!-- If set to on, the debug information will be displayed as exactly what was sent to constant contact as XML and your type --}
       [name]<?php echo $title; ?> {current_time format="%Y-%m-%d %H:%i:%s"}[/name]{!-- no duplicate names are allowed so post fix the current time --}
       [Subject]New Post: <?php echo $title; ?>[/Subject]
       [FromName]Your Website[/FromName]
-      [ViewAsWebpage]YES[/ViewAsWebpage]
+      [ViewAsWebpage]NO[/ViewAsWebpage]
       [ViewAsWebpageLinkText]Click here[/ViewAsWebpageLinkText]
       [ViewAsWebpageText]Having trouble viewing this email?[/ViewAsWebpageText]
       [PermissionReminder]NO[/PermissionReminder]

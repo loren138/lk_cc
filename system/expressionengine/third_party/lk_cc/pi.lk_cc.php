@@ -370,6 +370,11 @@ class Lk_cc {
 		$tagdata = $this->EE->TMPL->final_template;
 		$apiKey = $this->cc_api_key;
 		$username = $this->cc_username;
+		$debug = false;
+		preg_match("'\[debug\](.*?)\[/debug\]'si", $tagdata, $match);
+		if (isset($match[1]) && trim(strtolower($match[1])) == "on") {
+			$debug = true;
+		}
 		if ( ! class_exists('ConstantContact',false))
 		{
 			require_once(PATH_THIRD . 'lk_cc/wrapper/ConstantContact.php');
@@ -599,7 +604,9 @@ class Lk_cc {
 			$myCampaign->lists = $lists2;
 			
 			// Adds your new campaign to your Constant Contact Account
-			echo "\n\n".$myCampaign->createXml()."\n\n";
+			if ($debug) { 
+				echo "\n\n".$myCampaign->createXml()."\n\n"; 
+			}
 			$CampaignResult = $ConstantContact->addCampaign ( $myCampaign, $fromAddress );
 			// $CampaignResult will now hold the referenced campaign object
 		// Catch all errors
