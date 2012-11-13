@@ -3,6 +3,9 @@ LK Constant Contact
 Change Log
 ----------------------
 
+__v1.1.2__
+* Changed special character encoding to avoid double encoding
+
 __v1.1.1__
 * Added a debug on/off tag to the campaign generator to turn off displaying the full XML
 

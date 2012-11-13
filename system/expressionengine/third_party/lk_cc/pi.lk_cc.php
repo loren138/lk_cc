@@ -577,12 +577,12 @@ class Lk_cc {
 			if (!isset($match[1]) || $match[1] == "") {
 				echo "Error: EmailContent is missing";
 			}
-			$myCampaign->emailContent = htmlspecialchars($match[1]);
+			$myCampaign->emailContent = htmlspecialchars($match[1],null,null,false);
 			preg_match("'\[emailtextcontent\](.*?)\[/emailtextcontent\]'si", $tagdata, $match);
 			if (!isset($match[1]) || $match[1] == "") {
 				echo "Error: EmailTextContent is missing";
 			}
-			$myCampaign->textVersionContent = htmlspecialchars($match[1]);
+			$myCampaign->textVersionContent = htmlspecialchars($match[1],null,null,false);
 		    preg_match("'\[lists\](.*?)\[/lists\]'si", $tagdata, $match);
 		    if (!isset($match[1]) || $match[1] == "") {
 				echo "Error: Lists is missing";
