@@ -2,6 +2,8 @@ LK Constant Contact
 =====
 Change Log
 ----------------------
+__v1.1.3__
+* Bug fix: Thanks elivz
 
 __v1.1.2__
 * Changed special character encoding to avoid double encoding

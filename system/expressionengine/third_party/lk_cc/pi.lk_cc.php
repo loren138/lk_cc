@@ -117,7 +117,7 @@ class Lk_cc {
 			}
 		}
 		
-		$_POST	= ee()->security->xss_clean( $_POST );
+		$_POST	= $this->EE->security->xss_clean( $_POST );
 		if (isset($_POST['email'])) { // Process the Post if the email was set
 			$variables[0]['email'] = trim($_POST['email']);
 			if (isset($_POST['first_name'])) $variables[0]['first_name'] = trim($_POST['first_name']);
