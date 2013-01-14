@@ -371,6 +371,9 @@ class Lk_cc {
 		$apiKey = $this->cc_api_key;
 		$username = $this->cc_username;
 		$debug = false;
+		$curly = array( '&rsquo;', '&ldquo;', '&rdquo;' ); // Constant Contact and Curly Quotes do not get along....
+		$curlyr = array( "'", '"', '"' );
+		
 		preg_match("'\[debug\](.*?)\[/debug\]'si", $tagdata, $match);
 		if (isset($match[1]) && trim(strtolower($match[1])) == "on") {
 			$debug = true;
@@ -577,12 +580,12 @@ class Lk_cc {
 			if (!isset($match[1]) || $match[1] == "") {
 				echo "Error: EmailContent is missing";
 			}
-			$myCampaign->emailContent = htmlspecialchars($match[1],null,null,false);
+			$myCampaign->emailContent = htmlspecialchars(str_replace($curly,$curlyr,$match[1]),null,null,false);
 			preg_match("'\[emailtextcontent\](.*?)\[/emailtextcontent\]'si", $tagdata, $match);
 			if (!isset($match[1]) || $match[1] == "") {
 				echo "Error: EmailTextContent is missing";
 			}
-			$myCampaign->textVersionContent = htmlspecialchars($match[1],null,null,false);
+			$myCampaign->textVersionContent = htmlspecialchars(str_replace($curly,$curlyr,$match[1]),null,null,false);
 		    preg_match("'\[lists\](.*?)\[/lists\]'si", $tagdata, $match);
 		    if (!isset($match[1]) || $match[1] == "") {
 				echo "Error: Lists is missing";
