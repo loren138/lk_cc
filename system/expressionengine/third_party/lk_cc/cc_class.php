@@ -400,6 +400,7 @@
 			$fname_node = $contact_node->addChild("FirstName", urldecode(htmlspecialchars(($params['first_name']), ENT_QUOTES, 'UTF-8')));
 			$lname_node = $contact_node->addChild("LastName", urldecode(htmlspecialchars(($params['last_name']), ENT_QUOTES, 'UTF-8')));
 			$optin_node = $contact_node->addChild("OptInSource", htmlspecialchars($this->actionBy));
+			$state_node = $contact_node->addChild("StateCode", htmlspecialchars($params['state_code'], ENT_QUOTES, 'UTF-8'));
 			/*$lname_node = $contact_node->addChild("MiddleName", urldecode(htmlspecialchars(($params['middle_name']), ENT_QUOTES, 'UTF-8')));
 			if(isset($params['company_name']))
 			{
@@ -424,7 +425,6 @@
 			$ad2_node = $contact_node->addChild("Addr2", htmlspecialchars($params['address_line_2'], ENT_QUOTES, 'UTF-8'));
 			$ad3_node = $contact_node->addChild("Addr3", htmlspecialchars($params['address_line_3'], ENT_QUOTES, 'UTF-8'));
 			$city_node = $contact_node->addChild("City", htmlspecialchars($params['city_name'], ENT_QUOTES, 'UTF-8'));
-			$state_node = $contact_node->addChild("StateCode", htmlspecialchars($params['state_code'], ENT_QUOTES, 'UTF-8'));
 			$state_name = $contact_node->addChild("StateName", htmlspecialchars($params['state_name'], ENT_QUOTES, 'UTF-8'));
 			$ctry_node = $contact_node->addChild("CountryCode", htmlspecialchars($params['country_code'], ENT_QUOTES, 'UTF-8'));
 			$zip_node = $contact_node->addChild("PostalCode", htmlspecialchars($params['zip_code'], ENT_QUOTES, 'UTF-8'));
@@ -434,12 +434,11 @@
 				$note_node = $contact_node->addChild("Note", htmlspecialchars($params['notes'], ENT_QUOTES, 'UTF-8'));
 			}*/
 			$emailtype_node = $contact_node->addChild("EmailType", htmlspecialchars($params['mail_type'], ENT_QUOTES, 'UTF-8'));
-			/*
 			if (! empty($params['custom_fields'])) {
 				foreach ($params['custom_fields'] as $k=>$v) {
 					$contact_node->addChild("CustomField".$k, htmlspecialchars(($v), ENT_QUOTES, 'UTF-8'));
 				}
-			}*/
+			}
 
 			$contactlists_node = $contact_node->addChild("ContactLists");			
 			if ($params['lists']) {

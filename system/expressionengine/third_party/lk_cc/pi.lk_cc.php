@@ -88,9 +88,12 @@ class Lk_cc {
 				'email' => '',
 				'first_name' => '',
 				'last_name' => '',
+				'custom_field_1' => '',
+				'state_code' => '',
 				'lists' => array(
 				),
 				'success' => false,
+				'success2' => 'false',
 			)
 		);
 		// Add in the existing lists
@@ -122,6 +125,8 @@ class Lk_cc {
 			$variables[0]['email'] = trim($_POST['email']);
 			if (isset($_POST['first_name'])) $variables[0]['first_name'] = trim($_POST['first_name']);
 			if (isset($_POST['last_name'])) $variables[0]['last_name'] = trim($_POST['last_name']);
+			if (isset($_POST['custom_field_1'])) $variables[0]['custom_field_1'] = trim($_POST['custom_field_1']);
+			if (isset($_POST['state_code'])) $variables[0]['state_code'] = trim($_POST['state_code']);
 			if (isset($_POST['lists'])) {
 				// We have lists from the post so unset all of the defaults
 				foreach ($variables[0]['lists'] as $k => $v2) {
@@ -161,6 +166,8 @@ class Lk_cc {
 					$postFields["email_address"] = $variables[0]['email'];
 					$postFields["first_name"] = $variables[0]['first_name'];
 					$postFields["last_name"] = $variables[0]['last_name'];
+					$postFields["custom_fields"][1] = $variables[0]['custom_field_1'];
+					$postFields["state_code"] = $variables[0]['state_code'];
 					if(isset($_POST["mail_type"]))
 					{
 						$postFields["mail_type"] = $_POST["mail_type"];
@@ -185,6 +192,8 @@ class Lk_cc {
 					// Don't overwrite changes
 					if (!isset($_POST['first_name'])) $variables[0]['first_name'] = $contact['first_name'];
 					if (!isset($_POST['last_name'])) $variables[0]['last_name'] = $contact['last_name'];
+					if (!isset($_POST['custom_field_1'])) $variables[0]['custom_field_1'] = $contact['custom_field_1'];
+					if (!isset($_POST['state_code'])) $variables[0]['state_code'] = $contact['state_code'];
 					// Lists
 					if (!isset($_POST['lists'])) {
 						// Do some merging to get the defaults and existing checked
@@ -220,6 +229,8 @@ class Lk_cc {
 					$postFields["email_address"] = $variables[0]['email'];
 					$postFields["first_name"] = $variables[0]['first_name'];
 					$postFields["last_name"] = $variables[0]['last_name'];
+					$postFields["custom_fields"][1] = $variables[0]['custom_field_1'];
+					$postFields["state_code"] = $variables[0]['state_code'];
 					if(isset($_POST["mail_type"]))
 					{
 						$postFields["mail_type"] = $_POST["mail_type"];
@@ -237,6 +248,7 @@ class Lk_cc {
 					}
 				}
 				if ($success == true && !isset($_POST['confirm'])) {
+					$variables[0]['success2'] = 'true';
 					$variables[0]['success'] = true;
 				}
 			}
