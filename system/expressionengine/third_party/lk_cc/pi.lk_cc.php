@@ -226,7 +226,7 @@ class Lk_cc {
 					}
 					else
 					{
-						$postFields["mail_type"] = "HTML";
+						$postFields["mail_type"] = $contact['mail_type'];
 					}
 					$postFields["lists"] = $subscribe;
 					$contactXML = $ccContactOBJ->createContactXML($contact['id'],$postFields);
@@ -526,7 +526,7 @@ class Lk_cc {
 				$myCampaign->orgInternationalState == NULL;
 			} else {
 				preg_match("'\[organizationinternationalstate\](.*?)\[/organizationinternationalstate\]'si", $tagdata, $match);
-				if (!isset($match[1]) || $match[1] == "") {
+					if (!isset($match[1]) || $match[1] == "") {
 					echo "Error: OrganizationInternationalState is missing";
 				}
 				$myCampaign->orgInternationalState = $match[1];
@@ -587,6 +587,7 @@ class Lk_cc {
 			}
 			$myCampaign->textVersionContent = htmlspecialchars(str_replace($curly,$curlyr,$match[1]),null,null,false);
 		    preg_match("'\[lists\](.*?)\[/lists\]'si", $tagdata, $match);
+		    $match[1] = $match[1];
 		    if (!isset($match[1]) || $match[1] == "") {
 				echo "Error: Lists is missing";
 			}

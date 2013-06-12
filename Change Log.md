@@ -1,6 +1,6 @@
 LK Constant Contact
 =====
-Change Log
+Changelog
 ----------------------
 __v1.1.4__
 * Bug fix: This now filters out more curly quotes which constant contact is not happy about receiving and replaces them with the standard version.
