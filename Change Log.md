@@ -2,6 +2,10 @@ LK Constant Contact
 =====
 Changelog
 ----------------------
+__v1.1.5__
+* This now supports state_code and custom_field_1
+* Now includes success2 which is text true/false instead of boolean so it works with parse="inward"
+
 __v1.1.4__
 * Bug fix: This now filters out more curly quotes which constant contact is not happy about receiving and replaces them with the standard version.
 

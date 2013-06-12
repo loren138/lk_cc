@@ -640,7 +640,7 @@ class Lk_cc {
 	public static function usage()
 	{
 		return <<<EOT
-lk_cc
+LK Constant Contact
 =====
 
 Constant Contact Plugin for ExpressionEngine
@@ -669,7 +669,7 @@ Extension Settings
 
 Plugin Basic Usage
 =====================================================
-Tag Usage
+Subscribe Tag Usage
 ----------------------
 * Default_list is the lists that should be checked by default, if omitted no lists will be checked by default
 * Show_list is the lists to be shown, if omitted all lists will be shown.  The lists will be shown in the order the ids are listed.
@@ -679,15 +679,17 @@ Tag Usage
 * First and last name fields can be omitted if desired.  This script does not currently support any other Constant Contact fields.
 
 ```html
-	{exp:lk_cc:subscribe default_list="3" show_list="2|5|6|3|4"}
-		{if !success}
+	{exp:lk_cc:subscribe default_list="3" show_list="2|5|6|3|4" parse="inward"}
+		{if "{success2}" == "false"}
 			<form action="{path="site/subscribe"}" method="post">
 				<div class="clearboth">Please confirm your subscription.</div>
 				<div class="clearboth error">{error_message}</div>
 				<div class="float-left">
 					<p><sup>*</sup>Your Email:<br /><input type="text" name="email" value="{email}" /></p>
 					<p>First Name:<br /> <input type="text" name="first_name" value="{first_name}" /></p>
-					<p>Last Name:<br /> <input type="text" name="last_name" value="{last_name}" /></span></p>
+					<p>Last Name:<br /> <input type="text" name="last_name" value="{last_name}" /></p>
+					<p>Custom Field 1:<br /> <input type="text" name="custom_field_1" value="{custom_field_1}" size="30" /></p>
+					<p>State Code:<br /> {exp:reegion_select:states selected="{state_code}" name="state_code" type="alpha2"}</p>
 				</div>
 				<div class="float-left"><ul class="none">
 					<li>Subscribe to:</li>
@@ -701,8 +703,7 @@ Tag Usage
 				<div class="clearboth">
 					<p><input type="submit" name="submit" value="Submit" class="contact" /></p></div>
 			</form>
-		{/if}
-		{if success}
+		{if:else}
 			<p>Thanks for subscribing!  Please check your email to confirm your subscription.</p>
 		{/if}
 	{/exp:lk_cc:subscribe}
