@@ -41,7 +41,7 @@ class Lk_cc_ext {
 		{
 			$this->config_loc = 'config';
 		}
-		// check in global varas
+		// check in global vars
 		elseif (array_key_exists('lk_cc_cc_username', $this->EE->config->_global_vars) && array_key_exists('lk_cc_cc_password', $this->EE->config->_global_vars) && array_key_exists('lk_cc_cc_api_key', $this->EE->config->_global_vars))
 		{
 			$this->config_loc = 'global';

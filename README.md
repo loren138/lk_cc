@@ -52,9 +52,9 @@ Subscribe Tag Usage
 				<div class="float-left"><ul class="none">
 					<li>Subscribe to:</li>
 					{lists}
-						<li id="chk_{count}">
-							<input id="chk_{count}" type="checkbox" value="{value}" name="lists[]" {checked} /> 
-							<label for="chk_{count}">{name}</label>
+						<li id="chk_li_{value}">
+							<input id="chk_{value}" type="checkbox" value="{value}" name="lists[]" {checked} /> 
+							<label for="chk_{value}">{name}</label>
 						</li>
 					{/lists}
 				</ul></div>
