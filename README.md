@@ -35,11 +35,13 @@ Subscribe Tag Usage
 * Default_list and Show_list both support list ids separated by pipes.  They do not support the use of "not".
 * Email and at least one list selection will be required, the name fields are optional.  Error message strings are defined in the language file.
 * First and last name fields can be omitted if desired.  This script does not currently support any other Constant Contact fields.
+* XID Hash is for EE 2.7+ so it will allow the submission
 
 ```html
 	{exp:lk_cc:subscribe default_list="3" show_list="2|5|6|3|4" parse="inward"}
 		{if "{success2}" == "false"}
 			<form action="{path="site/subscribe"}" method="post">
+				<input type="hidden" name="XID" value="{XID_HASH}" />
 				<div class="clearboth">Please confirm your subscription.</div>
 				<div class="clearboth error">{error_message}</div>
 				<div class="float-left">
@@ -73,10 +75,12 @@ This form should submit to the page with the plugin tag code and can be used to 
 * Set the "confirm" hidden field so that "success" will not be set allowing the user to confirm, subscribe to additional lists etc.
 * If you set default lists, when the user clicks submit they will be added to your default email lists so even if they don't submit the confirmation form, they have still be subscribed.
 * Submitting the confirmation will allow them edit their information.
+* XID hash is for EE 2.7+ so that it will allow the submission
 
 ```html
 	<form action="/asia/site/subscribe" target="_blank" method="post">
 		<fieldset>
+			 <input type="hidden" name="XID" value="{XID_HASH}" />
 			<input type="hidden" name="confirm" value="confirm" />
 			<label for="subscribe_email" class="screen-reader-text">Email Address</label> 
 			<input type="text" value="" id="subscribe_email" name="email" />
