@@ -9,6 +9,8 @@ If your multiple sites all use the same Constant Contact account this will work 
 
 If you would like to add features to this addon, feel free to fork the git-repository and/or work with me on it.  I unfortunately have a full time job and won't be able to add features unless they are required for one of my projects, but I will do my best to provide support to those using the addon and help anyone who wants to add more features to it.
 
+If you are looking for a robust way to send out campaigns, check out https://www.devdemon.com/campaigns/.  Note: It currently does not have a way to add subscribers, just to email the existing ones.
+
 Extension Settings
 =====================================================
 * Constant Contact Username: Your username
