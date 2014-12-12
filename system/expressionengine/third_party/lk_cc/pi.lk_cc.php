@@ -4,7 +4,7 @@ if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 require_once PATH_THIRD . 'lk_cc/config.php';
 
 /**
- * LK Popular to fetch popular posts
+ * LK CC - Constant Contact Plugin
  * Plugin Info at bottom
  */
 
