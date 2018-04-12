@@ -1,8 +1,8 @@
-LK Constant Contact
-=====
-
-## This is not compatible with API v2 from Constant Contact.
+# This is not compatible with API v2 from Constant Contact.
 I will not be updating the plugin to version 2 as we are no longer using Expression Engine on our site.  If you would like to update it, I'm willing to merge a pull request or hand off development entirely.  Alternatively, if you would like to sponsor an update to version 2, please contact me.
+
+LK Constant Contact (Outdated, see above)
+=====
 
 Constant Contact Plugin for ExpressionEngine
 
