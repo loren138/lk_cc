@@ -1,6 +1,9 @@
 LK Constant Contact
 =====
 
+## This is not compatible with API v2 from Constant Contact.
+I will not be updating the plugin to version 2 as we are no longer using Expression Engine on our site.  If you would like to update it, I'm willing to merge a pull request or hand off development entirely.  Alternatively, if you would like to sponsor an update to version 2, please contact me.
+
 Constant Contact Plugin for ExpressionEngine
 
 This addon interfaces with the constant contact API to allow website visitors to sign up for your newsletters by entering their email address and selecting the lists that they wish to sign up for.  It does not interface with current users in your EE memberbase.
